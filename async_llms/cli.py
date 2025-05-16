@@ -2,7 +2,6 @@ import asyncio
 from pathlib import Path
 from argparse import ArgumentParser, Namespace
 
-from .llms import get_llm
 from .inference import run_inference
 
 def setup_args() -> Namespace:

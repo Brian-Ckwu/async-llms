@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "async-llms"
+version = "0.1.0"
+description = "A Python library for making asynchronous LLM calls"
+readme = "README.md"
+authors = [
+    {name = "Cheng-Kuang (Brian) Wu", email = "brianckwu@gmail.com"}
+]
+license = "MIT"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "tqdm",
+    "aiohttp",
+    "openai",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/async-llms"
+
+[project.scripts]
+async-llms = "async_llms.cli:main"
+
+[tool.setuptools]
+packages = ["async_llms"] 
