@@ -23,7 +23,7 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/async-llms"
+Homepage = "https://github.com/Brian-Ckwu/async-llms"
 
 [project.scripts]
 async-llms = "async_llms.cli:main"
