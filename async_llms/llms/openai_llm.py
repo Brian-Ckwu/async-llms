@@ -1,14 +1,23 @@
 import os
-from openai import AsyncOpenAI
+from openai import OpenAI, AsyncOpenAI
 from openai.types.chat.chat_completion import ChatCompletion
 
 class AsyncOpenAILLM:
     def __init__(self, base_url: str = "") -> None:
+        self.check_api_key(base_url)
         self.client = AsyncOpenAI(
             api_key=os.environ.get("OPENAI_API_KEY", default="EMPTY"),
             base_url=base_url if base_url else None
         )
 
+    def check_api_key(self, base_url: str = "") -> None:
+        client = OpenAI(
+            api_key=os.environ.get("OPENAI_API_KEY", default="EMPTY"),
+            base_url=base_url if base_url else None
+        )
+        client.models.list()  # will raise an error if the API key is invalid
+
+    # TODO: add retry logic
     async def __call__(
         self,
         custom_id: str,

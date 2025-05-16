@@ -24,7 +24,12 @@ async def llm_inference(
             break
 
 async def run_inference(args: Namespace) -> None:
-    llm = get_llm(args.api_type, args.base_url)
+    try:
+        llm = get_llm(args.api_type, args.base_url)
+    except Exception as e:
+        print(f"Error initializing LLM: {e}")
+        return
+
     args.output_jsonl.write_text("")  # clear the output file
 
     n_tasks = 0
@@ -58,4 +63,4 @@ async def run_inference(args: Namespace) -> None:
 
     for worker in workers:
         worker.cancel()
-    await asyncio.gather(*workers, return_exceptions=True) 
+    await asyncio.gather(*workers, return_exceptions=True)
