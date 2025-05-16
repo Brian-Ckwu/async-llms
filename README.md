@@ -12,6 +12,12 @@ pip install async-llms
 
 ## Usage
 
+### Set API Key
+
+```bash
+export OPENAI_API_KEY="your_api_key"
+```
+
 ### Command Line Interface
 
 You can use the package directly from the command line:
