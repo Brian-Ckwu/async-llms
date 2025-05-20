@@ -13,9 +13,10 @@ pip install async-llms
 ## Usage
 
 ### Set API Key
-
+Set the API key for the LLM provider you want to use.
 ```bash
 export OPENAI_API_KEY="your_api_key"
+export GOOGLE_API_KEY="your_api_key"
 ```
 
 ### Command Line Interface
