@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "async-llms"
-version = "0.1.4"
+version = "0.1.5"
 description = "A Python library for making asynchronous LLM calls"
 readme = "README.md"
 authors = [
@@ -29,5 +29,6 @@ Homepage = "https://github.com/Brian-Ckwu/async-llms"
 [project.scripts]
 async-llms = "async_llms.cli:main"
 
-[tool.setuptools]
-packages = ["async_llms"] 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["async_llms*"]
