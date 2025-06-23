@@ -10,8 +10,10 @@ class AsyncGoogleLLM(AsyncOpenAILLM):  # __call__ is inherited from AsyncOpenAIL
         self.check_api_key()
         self.client = AsyncOpenAI(
             api_key=os.environ.get("GOOGLE_API_KEY", default="EMPTY"),
-            base_url=self.BASE_URL
+            base_url=self.BASE_URL,
+            timeout=int(os.environ.get("ASYNC_LLM_TIMEOUT", default=600))
         )
+        print(f"{self.__class__.__name__} timeout: {self.client.timeout}")
 
     def check_api_key(self) -> None:
         client = OpenAI(

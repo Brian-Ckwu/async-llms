@@ -7,8 +7,10 @@ class AsyncOpenAILLM:
         self.check_api_key(base_url)
         self.client = AsyncOpenAI(
             api_key=os.environ.get("OPENAI_API_KEY", default="EMPTY"),
-            base_url=base_url if base_url else None
+            base_url=base_url if base_url else None,
+            timeout=int(os.environ.get("ASYNC_LLM_TIMEOUT", default=600))
         )
+        print(f"{self.__class__.__name__} timeout: {self.client.timeout}")
 
     def check_api_key(self, base_url: str = "") -> None:
         client = OpenAI(

@@ -19,6 +19,12 @@ export OPENAI_API_KEY="your_api_key"
 export GOOGLE_API_KEY="your_api_key"
 ```
 
+### (Optional) Set Timeout
+You can set the timeout for the LLM calls using the `ASYNC_LLM_TIMEOUT` environment variable.
+```bash
+export ASYNC_LLM_TIMEOUT=1800  # 1800 seconds per request
+```
+
 ### Command Line Interface
 
 You can use the package directly from the command line:
