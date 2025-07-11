@@ -19,6 +19,13 @@ export OPENAI_API_KEY="your_api_key"
 export GOOGLE_API_KEY="your_api_key"
 ```
 
+If you are using Google Vertex AI, you can set the project and location using the `GOOGLE_PROJECT` and `GOOGLE_LOCATION` environment variables.
+```bash
+export USE_VERTEX_AI="True"  # default is False
+export GOOGLE_PROJECT="your_project"
+export GOOGLE_LOCATION="your_location"  # "us-central1"
+```
+
 ### (Optional) Set Timeout
 You can set the timeout for the LLM calls using the `ASYNC_LLM_TIMEOUT` environment variable.
 ```bash
