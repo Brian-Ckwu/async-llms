@@ -17,6 +17,7 @@ Set the API key for the LLM provider you want to use.
 ```bash
 export OPENAI_API_KEY="your_api_key"
 export GOOGLE_API_KEY="your_api_key"
+export XAI_API_KEY="your_api_key"
 ```
 
 If you are using Google Vertex AI, you can set the project and location using the `GOOGLE_PROJECT` and `GOOGLE_LOCATION` environment variables.
