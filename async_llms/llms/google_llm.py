@@ -49,7 +49,7 @@ class AsyncGoogleLLM:
                 response_logprobs=body.get("logprobs", None),
                 logprobs=body.get("top_logprobs", None),
                 seed=body.get("seed", None),
-                thinking_config=types.ThinkingConfig(**thinking_config)
+                thinking_config=types.ThinkingConfig(**thinking_config) if thinking_config else None
             )
         }
 
