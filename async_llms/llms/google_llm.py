@@ -35,6 +35,9 @@ class AsyncGoogleLLM:
         return messages[0]["content"]
 
     def convert_openai_body_to_google_body(self, body: dict) -> dict:
+        thinking_config = dict()
+        if "extra_body" in body:
+            thinking_config = body["extra_body"]["extra_body"]["google"]["thinking_config"]
         return {
             "model": body["model"],
             "contents": self.convert_messages_to_contents(body["messages"]),
@@ -46,6 +49,7 @@ class AsyncGoogleLLM:
                 response_logprobs=body.get("logprobs", None),
                 logprobs=body.get("top_logprobs", None),
                 seed=body.get("seed", None),
+                thinking_config=types.ThinkingConfig(**thinking_config)
             )
         }
 
