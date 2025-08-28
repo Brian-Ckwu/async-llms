@@ -38,6 +38,25 @@ async def llm_inference(
             }
             await write_to_file(output_jsonl, error_response)
 
+def calc_output_stats(output_jsonl: Path) -> Dict[str, Any]:
+    stats = {
+        "num_requests": 0,
+        "total_prompt_tokens": 0,
+        "total_completion_tokens": 0,
+    }
+    with open(output_jsonl, "r") as f:
+        for line in f:
+            data = json.loads(line)
+            usage = data["response"]["body"]["usage"]
+            stats["num_requests"] += 1
+            stats["total_prompt_tokens"] += usage["prompt_tokens"]
+            stats["total_completion_tokens"] += usage["completion_tokens"]
+    stats.update({
+        "avg_prompt_tokens": stats["total_prompt_tokens"] / stats["num_requests"],
+        "avg_completion_tokens": stats["total_completion_tokens"] / stats["num_requests"],
+    })
+    return stats
+
 async def run_inference(args: Namespace) -> None:
     try:
         llm = get_llm(args.api_type, args.base_url)
@@ -65,3 +84,8 @@ async def run_inference(args: Namespace) -> None:
             )
     for coroutine in tqdm(asyncio.as_completed(tasks), total=len(tasks), desc=f"Running inference with semaphore (max_concurrent={args.num_parallel_tasks})"):
         await coroutine
+
+    if args.metadata_json is not None:
+        stats = calc_output_stats(args.output_jsonl)
+        with open(args.metadata_json, "w") as f:
+            json.dump(stats, f, indent=4)
