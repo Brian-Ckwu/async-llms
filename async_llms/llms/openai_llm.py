@@ -17,7 +17,7 @@ class AsyncOpenAILLM:
             api_key=os.environ.get("OPENAI_API_KEY", default="EMPTY"),
             base_url=base_url if base_url else None
         )
-        client.models.list()  # will raise an error if the API key is invalid
+        # client.models.list()  # will raise an error if the API key is invalid
 
     # TODO: add retry logic
     async def __call__(
