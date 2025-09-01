@@ -12,6 +12,7 @@ def setup_args() -> Namespace:
     parser.add_argument("--output_jsonl", type=Path, required=True, help="The path to save the inference results.")
     parser.add_argument("--metadata_json", type=Path, default=None, help="The path to the metadata json file storing statistics of LLM API calls (e.g., token usage).")
     parser.add_argument("--num_parallel_tasks", type=int, default=500, help="The number of parallel inference tasks to run.")
+    parser.add_argument("--only_run_missing", action="store_true", help="Only run inference for the requests that are not present in the output jsonl file (but exist in the input jsonl file).")
     return parser.parse_args()
 
 def main():

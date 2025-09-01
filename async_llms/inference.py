@@ -67,24 +67,33 @@ async def run_inference(args: Namespace) -> None:
         print(f"Error initializing LLM: {e}")
         return
 
-    # Clear the output file
-    async with aiofiles.open(args.output_jsonl, "w") as f:
-        await f.write("")
+    # Clear the output file if not only run missing
+    if not args.only_run_missing:
+        async with aiofiles.open(args.output_jsonl, "w") as f:
+            await f.write("")
+
+    runned_request_ids = set()
+    if args.only_run_missing and args.output_jsonl.exists():
+        with open(args.output_jsonl, "r") as f:
+            for line in f:
+                data = json.loads(line)
+                runned_request_ids.add(data["custom_id"])
 
     sem = asyncio.Semaphore(args.num_parallel_tasks)
     tasks = list()
     with open(args.input_jsonl, "r") as f:
         for line in f:
             data = json.loads(line)
-            tasks.append(
-                llm_inference(
-                    llm=llm,
-                    sem=sem,
-                    custom_id=data["custom_id"],
-                    body=data["body"],
-                    output_jsonl=args.output_jsonl,
+            if data["custom_id"] not in runned_request_ids:
+                tasks.append(
+                    llm_inference(
+                        llm=llm,
+                        sem=sem,
+                        custom_id=data["custom_id"],
+                        body=data["body"],
+                        output_jsonl=args.output_jsonl,
+                    )
                 )
-            )
     for coroutine in tqdm(asyncio.as_completed(tasks), total=len(tasks), desc=f"Running inference with semaphore (max_concurrent={args.num_parallel_tasks})"):
         await coroutine
 
