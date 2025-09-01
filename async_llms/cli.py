@@ -6,7 +6,7 @@ from .inference import run_inference
 
 def setup_args() -> Namespace:
     parser = ArgumentParser(description="Run asynchronous LLM inference")
-    parser.add_argument("--api_type", type=str, choices=["openai", "google", "xai"], default="openai", help="Type of the LLM API")
+    parser.add_argument("--api_type", type=str, default="openai", help="Type of the LLM API")
     parser.add_argument("--base_url", type=str, default="", help="(Optional) The custom base URL used in OpenAI client (e.g., served by vLLM or SGLang)")
     parser.add_argument("--input_jsonl", type=Path, required=True, help="The path to the input jsonl file for async LLM inference.")
     parser.add_argument("--output_jsonl", type=Path, required=True, help="The path to save the inference results.")
