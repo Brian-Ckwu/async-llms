@@ -47,8 +47,11 @@ def calc_output_stats(output_jsonl: Path) -> Dict[str, Any]:
     with open(output_jsonl, "r") as f:
         for line in f:
             data = json.loads(line)
-            usage = data["response"]["body"]["usage"]
             stats["num_requests"] += 1
+            usage = data["response"]["body"].get("usage", {
+                "prompt_tokens": 0,
+                "completion_tokens": 0,
+            })
             stats["total_prompt_tokens"] += usage["prompt_tokens"]
             stats["total_completion_tokens"] += usage["completion_tokens"]
     stats.update({
