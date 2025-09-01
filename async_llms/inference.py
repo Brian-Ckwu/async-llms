@@ -41,6 +41,7 @@ async def llm_inference(
 def calc_output_stats(output_jsonl: Path) -> Dict[str, Any]:
     stats = {
         "num_requests": 0,
+        "total_total_tokens": 0,
         "total_prompt_tokens": 0,
         "total_completion_tokens": 0,
     }
@@ -49,12 +50,15 @@ def calc_output_stats(output_jsonl: Path) -> Dict[str, Any]:
             data = json.loads(line)
             stats["num_requests"] += 1
             usage = data["response"]["body"].get("usage", {
+                "total_tokens": 0,
                 "prompt_tokens": 0,
                 "completion_tokens": 0,
             })
+            stats["total_total_tokens"] += usage["total_tokens"]
             stats["total_prompt_tokens"] += usage["prompt_tokens"]
             stats["total_completion_tokens"] += usage["completion_tokens"]
     stats.update({
+        "avg_total_tokens": stats["total_total_tokens"] / stats["num_requests"],
         "avg_prompt_tokens": stats["total_prompt_tokens"] / stats["num_requests"],
         "avg_completion_tokens": stats["total_completion_tokens"] / stats["num_requests"],
     })
